@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".usescases.eventsWithoutRegistration.eventDetails.ui.EventDetailsFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="org.hisp.dhis.android.core.common.FeatureType" />
+
+        <import type="org.dhis2.usescases.eventsWithoutRegistration.eventDetails.models.EventTempStatus" />
+
+        <variable
+            name="viewModel"
+            type="org.dhis2.usescases.eventsWithoutRegistration.eventDetails.ui.EventDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/form_field_background"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns_event_initial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/compose_stage_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:set_metadata_icon='@{viewModel.eventDetails.getIcon()}'/>
+
+                    <LinearLayout
+                        android:id="@+id/eventStageDetails"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/detailsStageName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text='@{viewModel.eventDetails.name}'
+                            android:textColor="@color/text_black_333"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="Program Stage Name" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.eventDetails.description}"
+                            android:textSize="12sp"
+                            android:visibility="@{viewModel.eventDetails.description != null ? View.VISIBLE:View.GONE}"
+                            tools:text="@tools:sample/lorem" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/editionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.eventDetails.editable ? View.GONE:View.VISIBLE}">
+
+                    <TextView
+                        android:id="@+id/editionReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="bottom|start"
+                        android:text="@{viewModel.eventDetails.editableReason}"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        tools:text="Not available" />
+                </LinearLayout>
+
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/fieldsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/reopenButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:padding="10dp"
+                    app:setReopen="@{viewModel}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/action_button"
+            style="@style/ButtonRoundedGrey"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{() -> viewModel.onButtonClick()}"
+            android:text="@{viewModel.eventDetails.actionButtonText}"
+            android:visibility="@{viewModel.eventDetails.isActionButtonVisible ? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/next" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
